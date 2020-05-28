@@ -13,13 +13,13 @@
 
    <form class="js-form">
     <div class="mb-3">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name</label>
-      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="name" id="name" />
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name <sup class="text-red-500">*</sup></label>
+      <input required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="name" id="name" />
     </div>
 
     <div>
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="message">Message</label>
-      <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="message" id="message"></textarea>
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="message">Message <sup class="text-red-500">*</sup></label>
+      <textarea required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="message" id="message"></textarea>
     </div>
 
     <button type="submit" class="mt-3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Submit</button>
@@ -42,10 +42,8 @@
       })
 
       if (res.ok) {
-        const queryString = window.location.search
-        const urlParams = new URLSearchParams(queryString)
-        const r = urlParams.get('r')
-        window.location.replace(r || 'https://github.com')
+        const { pull_request } = await res.json()
+        window.location.replace(pull_request)
       }
     })
   </script>

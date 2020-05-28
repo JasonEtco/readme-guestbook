@@ -29,21 +29,13 @@ async function getReadme (octokit: Octokit) {
   }
 }
 
-async function updateReadme (octokit: Octokit, guests: Guest[], readme: string, sha: string) {
+function generateNewReadme (guests: Guest[], readme: string) {
   const renderedList = renderList(guests)
   const listWithFences = `${START_COMMENT}\n${renderedList}\n${END_COMMENT}`
   const newContent = readme
     .replace(listReg, listWithFences)
     .replace(jsonReg, `<!--GUESTBOOK_LIST ${JSON.stringify(guests)}-->`)
-  const content =  Buffer.from(newContent).toString('base64')
-
-  return octokit.repos.createOrUpdateFile({
-    ...REPO_DETAILS,
-    content,
-    path: 'README.md',
-    message: `${guests[0].name} has signed the guestbook!`,
-    sha
-  })
+  return Buffer.from(newContent).toString('base64')
 }
 
 function parseListFromReadme (match: RegExpMatchArray): Guest[] {
@@ -63,6 +55,21 @@ function renderList (guests: Guest[]): string {
     .join('\n\n---\n\n')
 }
 
+async function createBranch (octokit: Octokit, newGuest: Guest) {
+  const baseRef = await octokit.git.getRef({
+    ...REPO_DETAILS,
+    ref: 'heads/master'
+  })
+
+  const ref = await octokit.git.createRef({
+    ...REPO_DETAILS,
+    ref: `refs/heads/${newGuest.name}`,
+    sha: baseRef.data.object.sha
+  })
+
+  return ref.data.ref.replace(/^refs\/heads\//, '')
+}
+
 export default async (req: NowRequest, res: NowResponse) => {
   const octokit = new Octokit({ auth: `token ${process.env.GITHUB_TOKEN}` })
   const readme = await getReadme(octokit)
@@ -79,7 +86,25 @@ export default async (req: NowRequest, res: NowResponse) => {
   }
 
   const newList = createNewList(newGuest, guests)
-  await updateReadme(octokit, newList, readme.content, readme.sha)
+  const branch = await createBranch(octokit, newGuest)
+  const newContents = generateNewReadme(newList, readme.content)
 
-  res.send(200).end()
+  await octokit.repos.createOrUpdateFile({
+    ...REPO_DETAILS,
+    content: newContents,
+    path: 'README.md',
+    message: `${guests[0].name} has signed the guestbook!`,
+    sha: readme.sha,
+    branch
+  })
+  
+  const pr = await octokit.pulls.create({
+    ...REPO_DETAILS,
+    head: branch,
+    base: 'master',
+    title: `${newGuest.name} has signed the guestbook!`,
+    body: `**Name:** ${newGuest.name}\n\n<sub><strong>Date:</strong> ${newGuest.date}</sub>\n\n**Message:** ${newGuest.message}`
+  })
+
+  res.json({ pull_request: pr.data.html_url })
 }
