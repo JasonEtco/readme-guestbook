@@ -42,8 +42,13 @@
       })
 
       if (res.ok) {
-        const { pull_request } = await res.json()
-        window.location.replace(pull_request)
+        const { error, pull_request } = await res.json()
+
+        if (error) {
+          alert(error)
+        } else {
+          window.location.replace(pull_request)
+        }
       }
     })
   </script>

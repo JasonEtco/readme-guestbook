@@ -86,25 +86,31 @@ export default async (req: NowRequest, res: NowResponse) => {
   }
 
   const newList = createNewList(newGuest, guests)
-  const branch = await createBranch(octokit, newGuest)
-  const newContents = generateNewReadme(newList, readme.content)
 
-  await octokit.repos.createOrUpdateFile({
-    ...REPO_DETAILS,
-    content: newContents,
-    path: 'README.md',
-    message: `${guests[0].name} has signed the guestbook!`,
-    sha: readme.sha,
-    branch
-  })
+  try {
+    const branch = await createBranch(octokit, newGuest)
+    const newContents = generateNewReadme(newList, readme.content)
   
-  const pr = await octokit.pulls.create({
-    ...REPO_DETAILS,
-    head: branch,
-    base: 'master',
-    title: `${newGuest.name} has signed the guestbook!`,
-    body: `**Name:** ${newGuest.name}\n\n<sub><strong>Date:</strong> ${newGuest.date}</sub>\n\n**Message:** ${newGuest.message}`
-  })
-
-  res.json({ pull_request: pr.data.html_url })
+    await octokit.repos.createOrUpdateFile({
+      ...REPO_DETAILS,
+      content: newContents,
+      path: 'README.md',
+      message: `${guests[0].name} has signed the guestbook!`,
+      sha: readme.sha,
+      branch
+    })
+    
+    const pr = await octokit.pulls.create({
+      ...REPO_DETAILS,
+      head: branch,
+      base: 'master',
+      title: `${newGuest.name} has signed the guestbook!`,
+      body: `**Name:** ${newGuest.name}\n\n<sub><strong>Date:</strong> ${newGuest.date}</sub>\n\n**Message:** ${newGuest.message}`
+    })
+  
+    res.json({ pull_request: pr.data.html_url })
+  } catch (err) {
+    console.error(err)
+    res.json({ error: 'Something weird happened and your entry wasn\'t added!' })
+  }
 }
