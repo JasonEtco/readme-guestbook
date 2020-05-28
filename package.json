@@ -20,9 +20,11 @@
   "homepage": "https://github.com/JasonEtco/readme-project-boards#readme",
   "dependencies": {
     "@octokit/rest": "^17.9.2",
-    "date-fns": "^2.12.0"
+    "date-fns": "^2.12.0",
+    "sanitize-html": "^1.24.0"
   },
   "devDependencies": {
+    "@types/sanitize-html": "^1.23.0",
     "@vercel/node": "^1.6.1",
     "standard": "^14.3.3",
     "vercel": "^19.0.1"

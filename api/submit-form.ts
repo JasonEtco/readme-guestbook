@@ -1,6 +1,7 @@
 import { Octokit } from '@octokit/rest'
 import { format } from 'date-fns'
 import { NowRequest, NowResponse } from '@vercel/node'
+import sanitizeHTML from 'sanitize-html'
 
 const REPO_DETAILS = {
   owner: process.env.REPO_OWNER,
@@ -69,12 +70,11 @@ export default async (req: NowRequest, res: NowResponse) => {
   const match = readme.content.match(jsonReg)
   if (!match) return res.send(200).end()
 
-
   const guests = parseListFromReadme(match)
 
   const newGuest: Guest = {
     name: req.body.name,
-    message: req.body.message,
+    message: sanitizeHTML(req.body.message),
     date: format(new Date(), 'MM/dd/yyyy')
   }
 
