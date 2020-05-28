@@ -6,7 +6,7 @@
   "scripts": {
     "start": "vercel dev",
     "test": "jest --coverage && standard",
-    "deploy": "vercel --public && vercel alias"
+    "deploy": "vercel --public --prod && vercel alias"
   },
   "repository": {
     "type": "git",
