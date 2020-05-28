@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "name": "readme-project-boards",
+  "description": "An SVG service for repository project boards",
+  "main": "index.js",
+  "scripts": {
+    "start": "vercel dev",
+    "test": "jest --coverage && standard",
+    "deploy": "vercel --public && vercel alias"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JasonEtco/readme-project-boards.git"
+  },
+  "author": "Jason Etcovitch <jasonetco@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JasonEtco/readme-project-boards/issues"
+  },
+  "homepage": "https://github.com/JasonEtco/readme-project-boards#readme",
+  "dependencies": {
+    "@octokit/rest": "^17.9.2",
+    "date-fns": "^2.12.0"
+  },
+  "devDependencies": {
+    "@vercel/node": "^1.6.1",
+    "standard": "^14.3.3",
+    "vercel": "^19.0.1"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  }
+}
