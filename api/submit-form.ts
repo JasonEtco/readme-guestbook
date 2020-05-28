@@ -95,7 +95,7 @@ export default async (req: NowRequest, res: NowResponse) => {
       ...REPO_DETAILS,
       content: newContents,
       path: 'README.md',
-      message: `${guests[0].name} has signed the guestbook!`,
+      message: `${newGuest.name} has signed the guestbook!`,
       sha: readme.sha,
       branch
     })
