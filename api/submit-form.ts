@@ -5,7 +5,7 @@ import sanitizeHTML from 'sanitize-html'
 
 const REPO_DETAILS = {
   owner: process.env.REPO_OWNER,
-  repo: '.github'
+  repo: process.env.REPO_OWNER
 }
 
 const START_COMMENT = '<!--START_SECTION:guestbook-->'
