@@ -8,6 +8,9 @@ const REPO_DETAILS = {
   repo: process.env.REPO_OWNER
 }
 
+const MAX_ENTRIES = 5
+const MAX_LENGTH = 150
+
 interface Guest {
   name: string
   message: string
@@ -53,7 +56,7 @@ function parseListFromReadme (match: RegExpMatchArray): Guest[] {
 
 function createNewList (newGuest: Guest, guests: Guest[]): Guest[] {
   // Only keep the latest 2
-  const latest = guests.slice(0, 2)
+  const latest = guests.slice(0, MAX_ENTRIES - 1)
   return [newGuest, ...latest]
 }
 
@@ -74,7 +77,7 @@ export default async (req: NowRequest, res: NowResponse) => {
 
   const newGuest: Guest = {
     name: req.body.name,
-    message: sanitizeHTML(req.body.message.slice(0, 150)),
+    message: sanitizeHTML(req.body.message.slice(0, MAX_LENGTH)),
     date: format(new Date(), 'MM/dd/yyyy')
   }
 
