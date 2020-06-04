@@ -31,7 +31,9 @@
   },
   "standard": {
     "env": [
-      "jest"
+      "jest",
+      "browser",
+      "firebase"
     ]
   }
 }
