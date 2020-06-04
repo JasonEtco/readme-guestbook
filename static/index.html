@@ -9,7 +9,7 @@
 </head>
 
 <body class="bg-gray-100 flex justify-center items-center h-full">
-  <main class="p-6 max-w-md mx-auto bg-white border mb-6 shadow-xl">
+  <main class="p-6 mx-auto bg-white border mb-6 shadow-xl max-w-full rounded-lg" style="width: 24rem">
     <div class="js-logged-out text-center">
       <h1 class="text-4xl font-bold mb-6">👋 Hello!</h1>
       <p>Login with your GitHub account to sign<br>my guestbook ✨</p>
@@ -20,18 +20,22 @@
     </div>
 
     <div class="js-logged-in" style="display: none">
-      <h1 class="font-bold mb-3">Guestbook</h1>
+      <div class="flex items-center justify-center mb-6">
+        <img class="w-16 h-16 rounded-full js-user-img">
+        <span class="mx-3">📝</span>
+        <img class="w-16 h-16 rounded-full" src="https://github.com/JasonEtco.png" alt="@JasonEtco">
+      </div>
+
+      <h1 class="font-bold mb-3 text-center">Sign my guestbook</h1>
+
+      <hr class="mb-6">
   
       <form class="js-form">
-        <div class="mb-3">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name <sup class="text-red-500">*</sup></label>
-          <input required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="name" id="name" />
-        </div>
-
-        <div>
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="message">Message <sup class="text-red-500">*</sup></label>
-          <textarea required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="message" id="message"></textarea>
-        </div>
+        <dl>
+          <dt><label class="block text-gray-700 text-sm font-bold" for="message">Message <sup class="text-red-500">*</sup></label></dt>
+          <p class="text-gray-500 text-sm mb-2">max 150 characters</p>
+          <dd><textarea placeholder="Hi Jason! Hope you're having a great day!" required maxlength="150" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="message" id="message"></textarea></dd>
+        </dl>
 
         <button type="submit" class="mt-3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Submit</button>
       </form>

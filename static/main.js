@@ -12,7 +12,7 @@ function showSection () {
   }
 }
 
-async function getUsername (token) {
+async function getUser (token) {
   const result = await fetch('https://api.github.com/user', {
     headers: {
       'Content-Type': 'application/json',
@@ -22,11 +22,13 @@ async function getUsername (token) {
   })
 
   const json = await result.json()
-  return json.login
+  return json
 }
 
-async function updateUserUI (user, token) {
-  const username = getUsername(user.providerData.uid, token)
+function updateUserUI (user) {
+  const img = document.querySelector('.js-user-img')
+  img.src = user.avatar_url
+  img.alt = `@${user.login}`
 }
 
 const provider = new firebase.auth.GithubAuthProvider()
@@ -39,8 +41,9 @@ firebase.initializeApp({
 
 const loginBtn = document.querySelector('.js-login-btn')
 loginBtn.addEventListener('click', async () => {
-  const { user, credential } = await firebase.auth().signInWithPopup(provider)
-  await updateUserUI(user, credential.accessToken)
+  const { credential } = await firebase.auth().signInWithPopup(provider)
+  const user = await getUser(credential.accessToken)
+  updateUserUI(user)
   showSection()
 })
 
