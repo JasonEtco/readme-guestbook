@@ -4,7 +4,7 @@
 
 ## How it works
 
-When someone visits `readme-guestbook.now.sh`, they're asked to login. This is so that we can sign their entry! Next, they submit a form, which hits [/api/submit-form.ts](the form handler).
+When someone visits `readme-guestbook.now.sh`, they're asked to login. This is so that we can sign their entry! Next, they submit a form, which hits [the form handler](/api/submit-form.ts).
 
 Next, we call this API to fetch the contents of the README:
 
@@ -28,4 +28,4 @@ Once we have the content, we parse it to look for special tags:
 PUT /repos/:owner/:repo/contents/:path
 ```
 
-Some values are hard-coded - I'm not yet sure of the best way to allow others to use this service! Feel free to [open an issue](/issues/new) if you have thoughts 🙏
+Some values are hard-coded - I'm not yet sure of the best way to allow others to use this service! Feel free to [open an issue](https://github.com/JasonEtco/readme-guestbook/issues/new) if you have thoughts 🙏
