@@ -64,12 +64,12 @@ form.addEventListener('submit', async evt => {
   })
 
   if (res.ok) {
-    const { error, pull_request: pr } = await res.json()
+    const { error, redirect } = await res.json()
 
     if (error) {
       window.alert(error)
     } else {
-      window.location.replace(pr)
+      window.location.replace(redirect)
     }
   }
 })

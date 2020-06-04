@@ -88,7 +88,7 @@ export default async (req: NowRequest, res: NowResponse) => {
   const newList = createNewList(newGuest, guests)
 
   try {
-    const branch = await createBranch(octokit, newGuest)
+    // const branch = await createBranch(octokit, newGuest)
     const newContents = generateNewReadme(newList, readme.content)
   
     await octokit.repos.createOrUpdateFile({
@@ -97,18 +97,10 @@ export default async (req: NowRequest, res: NowResponse) => {
       path: 'README.md',
       message: `${newGuest.name} has signed the guestbook!`,
       sha: readme.sha,
-      branch
+      branch: 'master'
     })
-    
-    const pr = await octokit.pulls.create({
-      ...REPO_DETAILS,
-      head: branch,
-      base: 'master',
-      title: `${newGuest.name} has signed the guestbook!`,
-      body: `**Name:** ${newGuest.name}\n\n<sub><strong>Date:</strong> ${newGuest.date}</sub>\n\n**Message:** ${newGuest.message}`
-    })
-  
-    res.json({ pull_request: pr.data.html_url })
+
+    res.json({ redirect: 'https://github.com/JasonEtco' })
   } catch (err) {
     console.error(err)
     res.json({ error: 'Something weird happened and your entry wasn\'t added!' })
