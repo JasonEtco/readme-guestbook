@@ -8,15 +8,23 @@ const REPO_DETAILS = {
   repo: process.env.REPO_OWNER
 }
 
-const START_COMMENT = '<!--START_SECTION:guestbook-->'
-const END_COMMENT = '<!--END_SECTION:guestbook-->'
-const listReg = new RegExp(`${START_COMMENT}[\\s\\S]+${END_COMMENT}`)
-const jsonReg = new RegExp(`<!--GUESTBOOK_LIST\\s(?<content>[\\s\\S]+)-->`)
-
 interface Guest {
   name: string
   message: string
   date: string
+}
+
+const START_COMMENT = '<!--START_SECTION:guestbook-->'
+const END_COMMENT = '<!--END_SECTION:guestbook-->'
+const listReg = new RegExp(`${START_COMMENT}[\\s\\S]+${END_COMMENT}`)
+const jsonReg = new RegExp(`<!--GUESTBOOK_LIST\\s(?<content>[\\s\\S]+)-->`)
+const entryTemplate = (guest: Guest) => {
+  return `[@${guest.name}](https://github.com/@${guest.name}) says:
+
+> ${guest.message}
+
+<sup>${guest.date}</sup>
+`
 }
 
 async function getReadme (octokit: Octokit) {
@@ -51,23 +59,8 @@ function createNewList (newGuest: Guest, guests: Guest[]): Guest[] {
 
 function renderList (guests: Guest[]): string {
   return guests
-    .map(guest => `**Name:** ${guest.name}\n\n<sub><strong>Date:</strong> ${guest.date}</sub>\n\n**Message:** ${guest.message}`)
+    .map(entryTemplate)
     .join('\n\n---\n\n')
-}
-
-async function createBranch (octokit: Octokit, newGuest: Guest) {
-  const baseRef = await octokit.git.getRef({
-    ...REPO_DETAILS,
-    ref: 'heads/master'
-  })
-
-  const ref = await octokit.git.createRef({
-    ...REPO_DETAILS,
-    ref: `refs/heads/${newGuest.name}`,
-    sha: baseRef.data.object.sha
-  })
-
-  return ref.data.ref.replace(/^refs\/heads\//, '')
 }
 
 export default async (req: NowRequest, res: NowResponse) => {
@@ -81,14 +74,13 @@ export default async (req: NowRequest, res: NowResponse) => {
 
   const newGuest: Guest = {
     name: req.body.name,
-    message: sanitizeHTML(req.body.message),
+    message: sanitizeHTML(req.body.message.slice(0, 150)),
     date: format(new Date(), 'MM/dd/yyyy')
   }
 
   const newList = createNewList(newGuest, guests)
 
   try {
-    // const branch = await createBranch(octokit, newGuest)
     const newContents = generateNewReadme(newList, readme.content)
   
     await octokit.repos.createOrUpdateFile({
