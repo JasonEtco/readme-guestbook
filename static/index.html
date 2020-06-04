@@ -26,14 +26,16 @@
         <img class="w-16 h-16 rounded-full" src="https://github.com/JasonEtco.png" alt="@JasonEtco">
       </div>
 
-      <h1 class="font-bold mb-3 text-center">Sign my guestbook</h1>
+      <h1 class="font-bold mb-3 text-center">Sign my guestbook!</h1>
 
       <hr class="mb-6">
   
       <form class="js-form">
+        <input type="hidden" value="" name="name" />
+
         <dl>
           <dt><label class="block text-gray-700 text-sm font-bold" for="message">Message <sup class="text-red-500">*</sup></label></dt>
-          <p class="text-gray-500 text-sm mb-2">max 150 characters</p>
+          <p class="text-gray-500 text-xs mb-2">Max 150 characters</p>
           <dd><textarea placeholder="Hi Jason! Hope you're having a great day!" required maxlength="150" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="message" id="message"></textarea></dd>
         </dl>
 

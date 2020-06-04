@@ -29,6 +29,7 @@ function updateUserUI (user) {
   const img = document.querySelector('.js-user-img')
   img.src = user.avatar_url
   img.alt = `@${user.login}`
+  document.querySelector('.js-form input[name="name"]').value = user.login
 }
 
 const provider = new firebase.auth.GithubAuthProvider()
@@ -50,12 +51,13 @@ loginBtn.addEventListener('click', async () => {
 const form = document.querySelector('.js-form')
 form.addEventListener('submit', async evt => {
   evt.preventDefault()
+  const name = form.querySelector('input[name="name"]').value
   const message = form.querySelector('textarea[name="message"]').value
 
   const res = await window.fetch('/api/submit-form', {
     method: 'POST',
     body: JSON.stringify({
-      name: firebase.auth().currentUser.login,
+      name,
       message
     }),
     headers: {
