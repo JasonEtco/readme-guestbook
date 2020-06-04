@@ -51,6 +51,13 @@ loginBtn.addEventListener('click', async () => {
 const form = document.querySelector('.js-form')
 form.addEventListener('submit', async evt => {
   evt.preventDefault()
+  const submitBtn = form.querySelector('.js-submit-btn')
+  const loadingBtn = form.querySelector('.js-submit-btn-loading')
+
+  submitBtn.style.display = 'none'
+  submitBtn.setAttribute('disabled', 'true')
+  loadingBtn.style.display = 'inline-block'
+ 
   const name = form.querySelector('input[name="name"]').value
   const message = form.querySelector('textarea[name="message"]').value
 
@@ -65,12 +72,18 @@ form.addEventListener('submit', async evt => {
     }
   })
 
+  loadingBtn.style.display = 'none'
+
   if (res.ok) {
     const { error, redirect } = await res.json()
 
     if (error) {
       window.alert(error)
+      submitBtn.style.display = 'inline-block'
+      submitBtn.removeAttribute('disabled')
     } else {
+      loadingBtn.style.display = 'none'
+      doneBtn.style.display = 'inline-block'
       window.location.replace(redirect)
     }
   }

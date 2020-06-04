@@ -6,6 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>JasonEtco's Guestbook</title>
   <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+
+  <style>
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .spinner {
+      animation: spin infinite 1000ms linear;
+    }
+  </style>
 </head>
 
 <body class="bg-gray-100 flex justify-center items-center h-full">
@@ -39,7 +50,18 @@
           <dd><textarea placeholder="Hi Jason! Hope you're having a great day!" required maxlength="150" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="message" id="message"></textarea></dd>
         </dl>
 
-        <button type="submit" class="mt-3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+        <button type="submit" class="js-submit-btn mt-3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+          Submit
+        </button>
+
+        <span class="js-submit-btn-loading mt-3 bg-green-500 opacity-50 text-white font-bold py-2 px-4 rounded" style="display: none;">
+          <svg class="spinner fill-current inline align-middle mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg>
+          Loading
+        </span>
+
+        <span class="js-submit-btn-loading mt-3 bg-green-500 opacity-50 text-white font-bold py-2 px-4 rounded" style="display: none;">
+          Redirecting you...
+        </span>
       </form>
     </div>
   </main>
