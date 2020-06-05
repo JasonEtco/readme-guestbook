@@ -53,6 +53,7 @@ form.addEventListener('submit', async evt => {
   evt.preventDefault()
   const submitBtn = form.querySelector('.js-submit-btn')
   const loadingBtn = form.querySelector('.js-submit-btn-loading')
+  const doneBtn = form.querySelector('.js-submit-btn-done')
 
   submitBtn.style.display = 'none'
   submitBtn.setAttribute('disabled', 'true')
