@@ -48,6 +48,19 @@ loginBtn.addEventListener('click', async () => {
   showSection()
 })
 
+/**
+ * 
+ * @param {HTMLElement} message 
+ */
+function toggleMessageTextarea (message) {
+  if (message.hasAttribute('disabled')) {
+    message.removeAttribute('disabled')
+  } else {
+    message.setAttribute('disabled', 'true')
+  }
+  message.classList.toggle('bg-gray-200')
+}
+
 const form = document.querySelector('.js-form')
 form.addEventListener('submit', async evt => {
   evt.preventDefault()
@@ -60,19 +73,20 @@ form.addEventListener('submit', async evt => {
   loadingBtn.style.display = 'inline-block'
  
   const name = form.querySelector('input[name="name"]').value
-  const message = form.querySelector('textarea[name="message"]').value
+  const message = form.querySelector('textarea[name="message"]')
 
   const res = await window.fetch('/api/submit-form', {
     method: 'POST',
     body: JSON.stringify({
       name,
-      message
+      message: message.value
     }),
     headers: {
       'Content-Type': 'application/json'
     }
   })
 
+  toggleMessageTextarea(message)
   loadingBtn.style.display = 'none'
 
   if (res.ok) {
@@ -82,6 +96,7 @@ form.addEventListener('submit', async evt => {
       window.alert(error)
       submitBtn.style.display = 'inline-block'
       submitBtn.removeAttribute('disabled')
+      toggleMessageTextarea(message)
     } else {
       loadingBtn.style.display = 'none'
       doneBtn.style.display = 'inline-block'
