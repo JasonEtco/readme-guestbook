@@ -1,7 +1,7 @@
 {
   "private": true,
-  "name": "readme-project-boards",
-  "description": "An SVG service for repository project boards",
+  "name": "readme-guestbook",
+  "description": "A tiny web app that turns a README into a guestbook",
   "main": "index.js",
   "scripts": {
     "start": "vercel dev",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JasonEtco/readme-project-boards.git"
+    "url": "git+https://github.com/JasonEtco/readme-guestbook.git"
   },
   "author": "Jason Etcovitch <jasonetco@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/JasonEtco/readme-project-boards/issues"
+    "url": "https://github.com/JasonEtco/readme-guestbook/issues"
   },
-  "homepage": "https://github.com/JasonEtco/readme-project-boards#readme",
+  "homepage": "https://github.com/JasonEtco/readme-guestbook#readme",
   "dependencies": {
     "@octokit/rest": "^17.9.2",
     "date-fns": "^2.12.0",
