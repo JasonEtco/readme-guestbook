@@ -22,7 +22,7 @@ const END_COMMENT = '<!--END_SECTION:guestbook-->'
 const listReg = new RegExp(`${START_COMMENT}[\\s\\S]+${END_COMMENT}`)
 const jsonReg = new RegExp(`<!--GUESTBOOK_LIST\\s(?<content>[\\s\\S]+)-->`)
 const entryTemplate = (guest: Guest) => {
-  return `[@${guest.name}](https://github.com/@${guest.name}) says:
+  return `[@${guest.name}](https://github.com/${guest.name}) says:
 
 > ${guest.message}
 
