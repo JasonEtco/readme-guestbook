@@ -24,7 +24,7 @@ const jsonReg = new RegExp(`<!--GUESTBOOK_LIST\\s(?<content>[\\s\\S]+)-->`)
 const entryTemplate = (guest: Guest) => {
   return `[@${guest.name}](https://github.com/${guest.name}) says:
 
-> ${guest.message}
+> ${guest.message.trim().replace(/\n/g, '\n> ')}
 
 <sup>${guest.date}</sup>
 `
