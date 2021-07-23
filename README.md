@@ -1,10 +1,10 @@
 <h3 align="center">README Guestbook</h3>
 <p align="center">A little web app that transforms a README into a guestbook.</p>
-<p align="center"><a href="https://readme-guestbook.now.sh">Let me know that you stopped by!</a></p>
+<p align="center"><a href="https://readme-guestbook.vercel.app">Let me know that you stopped by!</a></p>
 
 ## How it works
 
-When someone visits `readme-guestbook.now.sh`, they're asked to login. This is so that we can sign their entry! Next, they submit a form, which hits [the form handler](/api/submit-form.ts).
+When someone visits `readme-guestbook.vercel.app`, they're asked to login. This is so that we can sign their entry! Next, they submit a form, which hits [the form handler](/api/submit-form.ts).
 
 Next, we call this API to fetch the contents of the README:
 
